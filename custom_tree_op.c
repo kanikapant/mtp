@@ -438,6 +438,13 @@ static void tmem_pool_destroy_objs(struct tmem_pool *pool)
 }
 
 
+void tmem_obj_destroy(struct tmem_object_root *obj)
+{
+	//ASSERT_WRITELOCK(&obj->pool->pool_rwlock);
+	custom_radix_tree_destroy(&obj->tree_root, tmem_pgp_destroy);
+	tmem_obj_free(obj);
+}
+
 /*
 *******************************************************************************************************************************************************
 															 POOL OPERATIONS
